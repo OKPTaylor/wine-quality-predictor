@@ -63,6 +63,7 @@ My initial hypothesis is that wine quality is affected by acidity and alcohol co
 |Sulphates| Added to stop fermentation (Preservative) (g/L)|
 |Alcohol| Related to Residual Sugars. By-product of fermentation process (vol%)|
 |Quality| Score assigned between 0 and 10; 0=low, 10=best|
+|Color| Red or White type of wine|
 
 # Steps to Reproduce
 1) Clone this repo.
