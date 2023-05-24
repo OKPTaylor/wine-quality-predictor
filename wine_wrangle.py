@@ -18,7 +18,6 @@ from sklearn.tree import plot_tree
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler, RobustScaler, StandardScaler
 
-import env
 
 
 

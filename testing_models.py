@@ -29,8 +29,6 @@ from sklearn.metrics import  mean_squared_error
 from math import sqrt
 
 
-import env
-
 def regression_errors(y, yhat):
         '''
         Returns the following values:

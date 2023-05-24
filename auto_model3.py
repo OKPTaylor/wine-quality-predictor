@@ -29,8 +29,6 @@ from sklearn.metrics import  mean_squared_error
 from math import sqrt
 
 
-import env
-
 
 #This function automates the process for modeling and evaluating regression models
 def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_validate, x_test_scaled):
