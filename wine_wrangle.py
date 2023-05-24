@@ -143,16 +143,16 @@ def split_function_cont_target(df_name):
 #train_df_name, validate_df_name, test_df_name = wrg.split_function_cont_target(df_name)
 
 #This makes two lists containing all the categorical and continuous variables
-def cat_and_num_lists(df_train_name):
+def cat_and_num_lists(df_train_name, cat_count):
     col_cat = [] #this is for my categorical varibles
     col_num = [] #this is for my numeric varibles
 
-    for col in df_train_name.columns[1:21]: #make sure to set this to the range you want
+    for col in df_train_name.columns[0:]: #make sure to set this to the range you want
         
         if df_train_name[col].dtype == 'O':
             col_cat.append(col)
         else:
-            if len(df_train_name[col].unique()) < 4: #making anything with less than 4 unique values a catergorical value
+            if len(df_train_name[col].unique()) < cat_count: #making anything with less than 4 unique values a catergorical value
                 col_cat.append(col)
             else:
                 col_num.append(col)
@@ -165,7 +165,7 @@ def cat_and_num_lists(df_train_name):
 def plot_variable_target_pairs(df_train_name,target_var):
 
     #df_train_name = df_train_name.sample(100000, random_state=123) #this is for sampling the data frame. This may not be needed for your data set
-    col_cat, col_num = cat_and_num_lists(df_train_name)
+    col_cat, col_num = cat_and_num_lists(df_train_name, cat_count=4) #this set to 4 unique values
     
     for col in col_num:
         print(f"{col.upper()} and {target_var}")
@@ -175,7 +175,7 @@ def plot_variable_target_pairs(df_train_name,target_var):
         plt.show()
 
 #This plots all categorical variables against the target variable
-def plot_categorical_and_target_var(df_train_name, target, cat_count=4): #this defaults to 4 unique values
+def plot_categorical_and_target_var(df_train_name, target, cat_count=11): #this defaults to 4 unique values
     col_cat, col_num = cat_and_num_lists(df_train_name, cat_count)
     for col in col_cat:
         sns.barplot(x=df_train_name[col], y=df_train_name[target])
@@ -286,7 +286,45 @@ def spearman_loop(df_train_name, target_var, cat_count=4):
         if p < alpha:
             print('We reject the null hypothesis, there is a linear relationship between the variables\n')
         else:
-            print('We fail to reject the null hypothesis, there is not a linear relationship between the variables\n')    
+            print('We fail to reject the null hypothesis, there is not a linear relationship between the variables\n') 
+
+
+#This function runs through the continuous variables and all continous variables and runs the spearman test on them that are not the same
+def spearman_loop_all(df_train_name, cat_count=4):
+    alpha = 0.05
+    col_cat, col_num = cat_and_num_lists(df_train_name, cat_count)
+    for col1 in col_num:
+        for col2 in col_num:
+            if col1 != col2:
+                sns.regplot(x=df_train_name[col1], y=df_train_name[col2], data=df_train_name, line_kws={"color": "red"})
+                plt.title(f"{col1.lower().replace('_',' ')} vs {col2.lower().replace('_',' ')}")
+                plt.show()
+                print(f"{col1.upper()} and {col2.upper()}")
+                corr, p = stats.spearmanr(df_train_name[col1], df_train_name[col2])
+                print(f'corr = {corr}')
+                print(f'p = {p}')
+                if p < alpha:
+                    print('We reject the null hypothesis, there is a linear relationship between the variables\n')
+                else:
+                    print('We fail to reject the null hypothesis, there is not a linear relationship between the variables\n')
+             
+
+#funciton to plot a continous variable and a continous variable and run the spearman test on them
+def spearman_plot(df_train_name, col1, col2):
+    alpha = 0.05
+    sns.regplot(x=df_train_name[col1], y=df_train_name[col2], data=df_train_name, line_kws={"color": "red"})
+    plt.title(f"{col1.lower().replace('_',' ')} vs {col2.lower().replace('_',' ')}")
+    plt.show()
+    print(f"{col1.upper()} and {col2.upper()}")
+    corr, p = stats.spearmanr(df_train_name[col1], df_train_name[col2])
+    print(f'corr = {corr}')
+    print(f'p = {p}')
+    if p < alpha:
+        print('We reject the null hypothesis, there is a linear relationship between the variables\n')
+    else:
+        print('We fail to reject the null hypothesis, there is not a linear relationship between the variables\n')
+
+                
 
 
 #This function takes the data and scales it using the MinMaxScaler
