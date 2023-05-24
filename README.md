@@ -31,21 +31,22 @@ My initial hypothesis is that wine quality is affected by acidity and alcohol co
  
 * Explore data:
    * Answer the following initial questions:
-       1. Do chlorides affect quality?
+       1. Does sodium (chlorides) affect quality?
        2. Is free sulfur dioxide related to pH?
        3. Is alcohol content related to residual sugars?
        4. Does alcohol content affect quality of wine?
        
 * Model data:
     * 3 different clustering combinations
-    * 4 diffferent models
+    * 4 different models
         * Classification
+        * Regression
     * 5 different vizzes
 
 * Conclusions:
 	* Identify drivers of quality
-    * Define appropriate clusters
-    * Develop a classification model that beats baseline
+    * Define any appropriate clusters
+    * Develop a model that beats baseline
 
 # Data Dictionary
 
@@ -66,14 +67,28 @@ My initial hypothesis is that wine quality is affected by acidity and alcohol co
 |Color| Red or White type of wine|
 
 # Steps to Reproduce
-1) Clone this repo.
-2) Go to https://data.world/food/wine-quality and download red and white CSV's, save as original filename, and save to appropriate local directory.
-4) Run notebook.
+1) Clone this repo
+2) Go to https://data.world/food/wine-quality and download red and white CSV's, save as original filename, and save to appropriate local directory
+4) Run notebook
  
-# Takeaways and Conclusions
-* TBD
+# Takeaways and Conclusions<br>
+
+Clustering did not produce and *meaningful* clusters, but did highlight relationships:
+
+* **Acidity negatively affects the quality of wine**
+    * Higher the acid, lower the quality
+    * Volatile Acidity results from the degradation of citric acid. As citric acid degrades, volatile acidity goes up
+* **Alcohol positively affects the quality of wine**
+    * 0.44 Correlation Score
+    * Concerned about skewing
+        * Quality of 3 has 30 wines
+        * Quality of 9 has 5 wines
+* **White wine results in a much wider range of residual sugars**
+    * Clustering on Alcohol, Residual Sugars, and Density *attempted* to cluster to identify type of wine - got very close to being accurate
+        
+* OLIVER PUT MODELING CONCLUSIONS HERE *
 
 # Recommendations
-* For the data engineers: TBD
-* For the data scientsists: TBD
-* For the business: TBD
+* For the data engineers: Either split the dataset into white and red and create separate models or gather more data on red types of vinho verde.
+* For the data scientsists: Remove outlier and engineer "acid" feature and "feel" feature using appropriate columns.
+* For the business: Do not recommend putting this model into production.
