@@ -1,74 +1,79 @@
-# Zillow
+# Sommelier Sciencers
+
 # Project Description
  
-Improvement of current model used to predict property value for single family residential properties.
+Clustering project built to predict the quality of wine.
  
 # Project Goal
  
-* Find the key drivers of property value for single family properties.
-* Construct a ML Regression Model that predicts assessed worth of Single Family Properties using attributes of the properties from the 2017 dataset.
-* Assessed Worth is 'taxvaluedollarcnt' on the original data.
+* Find the key drivers of wine quality.
+* Using 3 clustering techniques to construct 4 machine learning models to predict wine quality from the wine quality (red and white) csv's from the Data World dataset.
+* Display results using 5 vizzes.
  
 # Initial Thoughts
  
-My initial hypothesis is that property value is affected by the number of bathrooms.
+My initial hypothesis is that wine quality is affected by acidity and alcohol content.
  
 # The Plan
  
-* Acquire data from MySQL Server (using Codeup credentials in env.py file).
+* Acquire data:
+    * get csv's from Data World website
+    * merge red and white csv's into one column stating if the wine is red or white
  
-* Prepare data
-   * Look at the data frame's info and note:
+* Prepare data:
+   * Look at the data:
 		* nulls
-		* corresponding value counts
-		* object types
-		* numerical types
+		* value counts
+		* data types
+		* numerical/categorical columns
 		* names of columns
+            * related columns
  
-* Explore data in search of drivers of worth
+* Explore data:
    * Answer the following initial questions:
-       1. What is more important for worth: bathrooms or bedrooms?
-       2. Does sqft affect worth?
-       3. Does having A/C affect worth?
-           * Unable to answer this question as during exploration the AC column had over 38,000 nulls
-       4. Does county affect worth?
+       1. Do chlorides affect quality?
+       2. Is free sulfur dioxide related to pH?
+       3. Is alcohol content related to residual sugars?
+       4. Does alcohol content affect quality of wine?
        
-* Develop a Model to predict worth:
-    * Use drivers identified in the explore phase to build predictive models of different types.
-    * Evaluate models on the train and validate datasets.
-    * Select the best model based on the best fit.
-    * Evaluate the best model on the test data.
+* Model data:
+    * 3 different clustering combinations
+    * 4 diffferent models
+        * Classification
+    * 5 different vizzes
 
-* Draw conclusions
-	* Identify drivers from zillow data. 
-	* Make recommendations for improvements.
+* Conclusions:
+	* Identify drivers of quality
+    * Define appropriate clusters
+    * Develop a classification model that beats baseline
 
 # Data Dictionary
 
-| Feature | Definition |
+| Feature | Definition (measurement)|
 |:--------|:-----------|
-|Bed| The number of bedrooms|
-|Bath| The number of bathrooms|
-|Sqft| The square feet of the property|
-|Assessed Worth| **target** This is the assessed worth of the home|
-|County| This is the location of the property, (LA, Orange, Venutra)|
-|Date| This is the transaction date|
+|Fixed Acidity| The fixed amount of tartaric acid. (g/L)|
+|Volatile Acidity| A wine's acetic acid; (High Volatility = High Vinegar-like smell). (g/L)|
+|Citric Acid| The amount of citric acid; (Raises acidity, Lowers shelf-life). (g/L)|
+|Residual Sugar| Leftover sugars after fermentation. (g/L)|
+|Chlorides| Increases sodium levels; (Affects color, clarity, flavor, aroma). (g/L)|
+|Free Sulfur Dioxide| Related to pH. Determines how much SO2 is available. (Increases shelf-life, decreases palatability). (mg/L)|
+|Total Sulfur Dioxide| Summation of free and bound SO2. (Limited to 350ppm: 0-150, low-processed, 150+ highly processed). (mg/L)|
+|Density| Between 1.08 and 1.09. (Insight into fermentation process of yeast growth). (g/L)|
+|pH| 2.5: more acidic - 4.5: less acidic (range)|
+|Sulphates| Added to stop fermentation (Preservative) (g/L)|
+|Alcohol| Related to Residual Sugars. By-product of fermentation process (vol%)|
+|Quality| Score assigned between 0 and 10; 0=low, 10=best|
+|Color| Red or White type of wine|
 
 # Steps to Reproduce
 1) Clone this repo.
-2) Acquire the data from MySQL servers using your own Codeup credentials stored in an env.py file.
-3) Put the data in the file containing the cloned repo.
+2) Go to https://data.world/food/wine-quality and download red and white CSV's, save as original filename, and save to appropriate local directory.
 4) Run notebook.
  
 # Takeaways and Conclusions
-* There is a feature(s) not in this dataset that contributes greater to a house's worth based on location.
-* In this first iteration, we will proceed to modeling with the features we have confirmed to be relevant.
-* Given more time I would ask for the data to be reengineered to potentially find and replace nulls with relevant information.
-* If that isn't possible I would try to engineer some features to increase accuracy.
-    * Such as, combining pool, garage, air conditioning into one feature to see if that adds any value.
-    * Location features
+* TBD
 
 # Recommendations
-* For the data engineers: Engineer Location Features to improve predicatability of the model
-* For the data scientsists: Check for multicollinearity among the predictor variables and remove any highly correlated variables, replacing with new features
-* For the business: Improvements in features will increase performance and lead to better results
+* For the data engineers: TBD
+* For the data scientsists: TBD
+* For the business: TBD
