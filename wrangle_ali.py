@@ -75,6 +75,7 @@ def wrangle_wine_initial():
     # encode the categorical column
     dummy_df = pd.get_dummies(df_clean[['type']], dummy_na=False, drop_first=[True])
     df_clean = pd.concat([df_clean, dummy_df], axis=1)
+    df_clean = df_clean.drop(columns=('type'))
     print(f"Encoded Type column")
 
     return df_clean
