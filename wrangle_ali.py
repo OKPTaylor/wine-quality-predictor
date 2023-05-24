@@ -79,6 +79,33 @@ def wrangle_wine_initial():
 
     return df_clean
 
+def outliers(df):
+    """This function takes in a df and identifies outliers for each numerical column
+    """
+    # empty lists
+    col_cat = [] #this is for my categorical variables 
+    col_num = [] #this is for my numerical variables 
+    
+    # iterate
+    for col in df.columns: 
+        if col in df.select_dtypes(include=['int64', 'float64']): 
+            col_num.append(col) 
+        else: 
+            col_cat.append(col) 
+
+    for col in col_cat: 
+        print(f"{col.capitalize().replace('_', ' ')} is a categorical column.") 
+    print(f"--------------------------------------------")
+    print('Outliers Calculated with IQR Ranges, multiplier 1.5')
+    print(f"--------------------------------------------")
+    for col in col_num: 
+        q1 = df[col].quantile(.25) 
+        q3 = df[col].quantile(.75) 
+        iqr = q3 - q1 
+        upper_bound = q3 + (1.5 * iqr) 
+        lower_bound = q1 - (1.5 * iqr) 
+        print(f"{col.capitalize().replace('_', ' ')} < = {upper_bound.round(2)} and > {lower_bound.round(2)}") 
+
 def wrangle_wine_extra():
     """This function takes in two local CSV files, combines them, performs data cleanup
     and returns a clean df.
