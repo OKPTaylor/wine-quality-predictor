@@ -63,14 +63,14 @@ def alcohol_quality_hist(df, col1, col2):
     plt.show()
     
 def summarize_sodium_quality(df, col1, col2):
-    """This function shows a barplot of sodium V quality"""
+    """This function shows a barplot of cluster set 1 and quality"""
     sns.barplot(y=df[col1], x=df[col2], ci=False, palette='mako_r')
     plt.show()    
     
 def summarize_alcohol_quality(df, col1, col2):
+    """This function displays a barplot of cluster set 2 and quality
     """
-    """
-    sns.barplot(y=df[col1], x=df[col2], ci=False, palette='flare')
+    sns.barplot(y=df[col1], x=df[col2], ci=False, palette='mako_r')
     plt.title("Correlation of Alcohol Percentage and Quality Rating")
     plt.show()
     
@@ -78,7 +78,7 @@ def summarize_alcohol_sugar_quality(df, col1, col2, col3):
     """This function shows a summary of alcohol content and residual sugars related to quality
     """
     plt.figure(figsize=(12, 10))
-    sns.scatterplot(x=df[col1], y=df[col2],hue=df[col3])
+    sns.scatterplot(x=df[col1], y=df[col2],hue=df[col3], palette='mako_r')
     plt.title("Correlation of Alcohol and Residual Sugars")
     plt.show()
     
