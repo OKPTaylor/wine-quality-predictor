@@ -120,6 +120,7 @@ def auto_knn_graph(X_train, y_train, X_validate, y_validate, k_range=[3,5,7,8,12
         print(f'\nk number = {x} accuracy = {train_acc, val_acc}')
 
         scores_all.append([x, train_acc, val_acc])
+        
 
 #call should be: atm.auto_model_knn(X_train, y_train, X_validate, y_validate, k_range)        
 
@@ -251,9 +252,9 @@ def auto_random_trees_test(x_test, y_test, x_train, y_train):
         y_pred = rf.predict(x_test)
         conf = confusion_matrix(y_test, y_pred)
     
-        print(f"\n------------------------ Test Model with depth of {20} ------------------------------")
-        plot_confusion_matrix(rf, x_test, y_test)
-        plt.show()
+        print(f"\n------------------------ Test Model with depth of {20} Scores------------------------------")
+        #plot_confusion_matrix(rf, x_test, y_test)
+        #plt.show()
         print(pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)))
         print("------------ Metrics ----------")
         #print(print_cm_metrics(conf)) 
@@ -270,5 +271,100 @@ def auto_random_trees_test(x_test, y_test, x_train, y_train):
             columns={1:'Probability of proper binning'})
                     ],axis=1)
     predictions.to_csv("Binning_predictions.csv")'''
-       
-          
+
+'''----------------------------------------------- Auto Modeling No Graphs ---------------------------------------------------------------------------------'''
+
+#This function runs through a range of k values and returns the accuracy scores for each k value       
+def auto_knn_scores(X_train, y_train, X_validate, y_validate, k_range=[3,5,7,8,12,18]): # k_range default should be set to 5
+    scores_all = []
+    
+
+    for x in k_range:
+        
+        #make it
+        knnx = KNeighborsClassifier(n_neighbors=x) #increases the k number
+        #fit it
+        knnx.fit(X_train, y_train)
+        #transform it
+        train_acc = knnx.score(X_train, y_train)
+        y_pred = knnx.predict(X_train)
+        
+        conf = confusion_matrix(y_train, y_pred)
+        
+        #evaluate on my validate data
+        val_acc = knnx.score(X_validate, y_validate)
+        y_vpred = knnx.predict(X_validate)
+        conf = confusion_matrix(y_validate, y_vpred)
+        
+        scores_all.append([x, train_acc, val_acc])
+    #create a dataframe from the scores_all list of lists
+    df_scores = pd.DataFrame(scores_all)
+    #add column names to the dataframe
+    df_scores.columns = ['k', 'train_accuracy', 'validate_accuracy']
+    # sort the dataframe by the difference between train and validate
+    df_scores['delta'] = df_scores.train_accuracy - df_scores.validate_accuracy
+    print(df_scores.sort_values(by='delta', ascending=False))
+
+#call should be: atm.auto_knn_no_graph(X_train, y_train, X_validate, y_validate, k_range) 
+
+#This function runs through a range of max_depth values and returns the accuracy scores for each max_depth value
+def auto_random_forest_scores(x_train, y_train, x_validate, y_validate, max_depth=[5,8,10,13,15,18,20]):
+    scores_all = []
+
+    for x in max_depth:
+        
+        #make it
+        rf = RandomForestClassifier(random_state=123, max_depth=x) #increases the sample leaf whild decreasing max depth
+        #fit it
+        rf.fit(x_train, y_train)
+        #transform it
+        train_acc = rf.score(x_train, y_train)
+        y_pred = rf.predict(x_train)
+        #conf = confusion_matrix(y_train, y_pred)
+    
+        
+        #evaluate on my validate data
+        val_acc = rf.score(x_validate, y_validate)
+        y_vpred = rf.predict(x_validate)
+        #conf = confusion_matrix(y_validate, y_vpred)
+
+        scores_all.append([x, train_acc, val_acc]) 
+
+    #create a dataframe from the scores_all list of lists
+    df_scores = pd.DataFrame(scores_all)
+    # add column names to the dataframe
+    df_scores.columns = ['max_depth', 'train_accuracy', 'validate_accuracy']
+    # sort the dataframe by the difference between train and validate
+    df_scores['delta'] = df_scores.train_accuracy - df_scores.validate_accuracy
+    print(df_scores.sort_values(by='delta', ascending=False))
+
+#This function runs through a range of max_depth values and returns the accuracy scores for each max_depth value for logistic regression
+def auto_lo_regress_scores(x_train, y_train, x_validate, y_validate, max_depth=[5,8,10,13,15,18,20]):
+        scores_all = []
+
+        for x in max_depth:
+        
+        #make it
+            logit = LogisticRegression() #increases the sample leaf whild decreasing max depth
+                #fit it
+            logit.fit(x_train, y_train)
+                #transform it
+            train_acc = logit.score(x_train, y_train)
+            y_pred = logit.predict(x_train)
+            #conf = confusion_matrix(y_train, y_pred) 
+                
+            #evaluate on my validate data
+            val_acc = logit.score(x_validate, y_validate)
+            y_vpred = logit.predict(x_validate)
+            #conf = confusion_matrix(y_validate, y_vpred)
+
+            
+
+            scores_all.append([x, train_acc, val_acc])
+        #create a dataframe from the scores_all list of lists
+        df_scores = pd.DataFrame(scores_all)
+        # add column names to the dataframe
+        df_scores.columns = ['max_depth', 'train_accuracy', 'validate_accuracy']
+        # sort the dataframe by the difference between train and validate
+        df_scores['delta'] = df_scores.train_accuracy - df_scores.validate_accuracy
+        print(df_scores.sort_values(by='delta', ascending=False))        
