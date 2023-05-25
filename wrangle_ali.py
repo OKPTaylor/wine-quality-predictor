@@ -307,6 +307,29 @@ def scaler_minmax(train, validate, test):
     
     return X_train_scaled, X_validate_scaled, X_test_scaled
 
+def scaler_cluster(df):
+    """This function takes in the train dataset, splits using MinMaxScaler, 
+    random seed=123, and returns 1 scaled df
+    ---
+    Format: X_train_cluster_scaled = function()
+    """
+    #to_scale
+    to_scale = df.columns.tolist()
+    
+    #make copies for scaling
+    X_train_cluster_scaled = df.copy()
+
+    #scale them!
+    #make the thing
+    scaler = MinMaxScaler()
+
+    #fit the thing
+    scaler.fit(df[to_scale])
+
+    #use the thing
+    X_train_cluster_scaled[to_scale] = scaler.transform(df[to_scale])
+    
+    return X_train_cluster_scaled
 
 def inverse_minmax(scaled_df):
     """This function takes in the MinMaxScaler object and returns the inverse
