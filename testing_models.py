@@ -71,8 +71,24 @@ def test_poly_model(y_train, y_test, x_train_scaled,x_test_scaled):
     metric_df = ['Polynomial Model Test', rmse, r2]
     print(metric_df)
    
-   #plot actuals vs predicted
-    baseline=0.873493
+
+
+   # plot to visualize actual vs predicted using a histogram
+    plt.figure(figsize=(16,8))
+
+    plt.hist(y_train, color='blue', alpha=.5, label="Actual Wine Quality")
+    plt.hist(pred_pr, color='red', alpha=.5, label="Model: Polynomial Regression")
+       #plt.hist(y_validate.G3_pred_lars, color='purple', alpha=.5, label="Model: Lasso Lars")
+        #plt.hist(y_validate.G3_pred_glm, color='yellow', alpha=.5, label="Model: TweedieRegressor")
+        #plt.hist(y_validate.G3_pred_lm2, color='green', alpha=.5, label="Model 2nd degree Polynomial")
+
+    plt.xlabel("Wine Quality")
+    plt.ylabel("Number of Wines")
+    plt.title("Comparing the Distribution of Wine Quality to Distributions of Predicted Wine Quality for the Top Model")
+    plt.legend()
+    plt.show()
+    
+    '''baseline=0.873493
     plt.figure(figsize=(16,8))
     plt.plot(y_test, y_test, color='green', label='Actual')
     plt.scatter(y_test, pred_test_pr, color='red', alpha=.5, label='Model 1: Polynomial')
@@ -92,7 +108,7 @@ def test_poly_model(y_train, y_test, x_train_scaled,x_test_scaled):
     plt.xlabel('Actual')
     plt.ylabel('Residual/Error: Predicted - Actual')
     plt.title('Residual/Error: Predicted - Actual')
-    plt.show()
+    plt.show()'''
     
 
  #tweedie regression
