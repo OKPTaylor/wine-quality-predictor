@@ -8,7 +8,7 @@ Clustering project built to predict the quality of wine.
  
 * Find the key drivers of wine quality.
 * Using 3 clustering techniques to construct 4 machine learning models to predict wine quality from the wine quality (red and white) csv's from the Data World dataset.
-* Display results using 5 vizzes.
+* Display results using vizzes.
  
 # Initial Thoughts
  
@@ -65,6 +65,9 @@ My initial hypothesis is that wine quality is affected by acidity and alcohol co
 |Alcohol| Related to Residual Sugars. By-product of fermentation process (vol%)|
 |Quality| Score assigned between 0 and 10; 0=low, 10=best|
 |Color| Red or White type of wine|
+|Acid| Engineered Feature: Volatile Acidity + Fixed Acidity|
+|Sweetness| Engineered Feature: Residual Sugar + Alcohol|
+|Feel| Engineered Feature: pH + Density + Free Sulfur Dioxide|
 
 # Steps to Reproduce
 1) Clone this repo
@@ -86,9 +89,16 @@ Clustering did not produce and *meaningful* clusters, but did highlight relation
 * **White wine results in a much wider range of residual sugars**
     * Clustering on Alcohol, Residual Sugars, and Density *attempted* to cluster to identify type of wine - got very close to being accurate
         
-* OLIVER PUT MODELING CONCLUSIONS HERE *
+* **Modeling**
+
+* The random forest performed well at predicting wines in the quality ranges of 4-7 even hitting over 80% true positive rates at 4 and 7. The model preformed worse at the end ranges mostly due to the fact that in those ranges there are limited number of wines.
+
+* While the Polynomial Model beat baseline with a RMSE of .72 this means that predictions will still be off by nearly an entire quality level. This is refelcted in the graph by showing how that most of the predictions are clumped in the middle.
+
+* Classification modeling (random forest) is comparativly better than any regression model for predicting specific catagories sprend across a greater range of predicted and actual datapoints.
 
 # Recommendations
+* For future researchers: This data set consisted of only variants of the Portuguese vinho verde and their associated grape types, in order to more fully explore and predict wine quality data on more grape types must be collected.
 * For the data engineers: Either split the dataset into white and red and create separate models or gather more data on red types of vinho verde.
 * For the data scientsists: Remove outlier and engineer "acid" feature and "feel" feature using appropriate columns.
 * For the business: Do not recommend putting this model into production.
