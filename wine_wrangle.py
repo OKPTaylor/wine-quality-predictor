@@ -441,7 +441,7 @@ def scaler_cluster(df):
     return X_train_cluster_scaled
 
 
-'''--------------------------------------------------------------------------Spliting-------------------------------------------------------------------------------'''
+'''------------------------------------------------------------------------X, y Spliting-------------------------------------------------------------------------------'''
 # This function takes in the wine data acquired from the get_csv function and splits it into different train, validate, and test
 #sets up X and y for train, validate, and test
 def wine_split(train, validate, test, target='quality'):
@@ -463,20 +463,20 @@ def wine_split_cluster(train, validate, test, target='quality'):
     # combine volatile acidity and fixed acidity into one column
     train['acid'] = train['volatile_acidity'] + train['fixed_acidity']
     train['sweetness'] = train['residual_sugar'] + train['alcohol']
-    train["feel"] = train['pH'] + train['density'] + train["free_sulfur_dioxide"] 
+    train["feel"] = train['pH'] + train['density'] + train["free_SO2_shelf_life"] 
 
     validate['acid'] = validate['volatile_acidity'] + validate['fixed_acidity']
     validate['sweetness'] = validate['residual_sugar'] + validate['alcohol']
-    validate["feel"] = validate['pH'] + validate['density'] + train["free_sulfur_dioxide"] 
+    validate["feel"] = validate['pH'] + validate['density'] + validate["free_SO2_shelf_life"] 
 
     test['acid'] = test['volatile_acidity'] + test['fixed_acidity']
     test['sweetness'] = test['residual_sugar'] + test['alcohol']
-    test["feel"] = test['pH'] + test['density'] + train["free_sulfur_dioxide"] 
+    test["feel"] = test['pH'] + test['density'] + test["free_SO2_shelf_life"] 
 
     #drop the original columns
-    train = train.drop(columns=['volatile_acidity', 'fixed_acidity', 'residual_sugar', 'alcohol', 'pH', 'density', "free_sulfur_dioxide"])
-    validate = validate.drop(columns=['volatile_acidity', 'fixed_acidity', 'residual_sugar', 'alcohol', 'pH', 'density', "free_sulfur_dioxide"])
-    test = test.drop(columns=['volatile_acidity', 'fixed_acidity', 'residual_sugar', 'alcohol', 'pH', 'density',"free_sulfur_dioxide"])
+    train = train.drop(columns=['volatile_acidity', 'fixed_acidity', 'residual_sugar', 'alcohol', 'pH', 'density', "free_SO2_shelf_life"])
+    validate = validate.drop(columns=['volatile_acidity', 'fixed_acidity', 'residual_sugar', 'alcohol', 'pH', 'density', "free_SO2_shelf_life"])
+    test = test.drop(columns=['volatile_acidity', 'fixed_acidity', 'residual_sugar', 'alcohol', 'pH', 'density',"free_SO2_shelf_life"])
     #assign X and y versions of train, validate, and test from all columns
     X_train2 = train.drop(columns=[target, 'type_white'])
     y_train2 = train[['quality']]
