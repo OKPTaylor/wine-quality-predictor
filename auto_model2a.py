@@ -233,13 +233,15 @@ def auto_lo_regress(x_train, y_train, x_validate, y_validate, max_depth=[5,8,10,
 
             scores_all.append([x, train_acc, val_acc])
 
+
+#function to test the best max_depth for the random forest model
 def auto_random_trees_test(x_test, y_test, x_train, y_train):
    
 
-    #for x in max_depth:
+    
         
         #make it
-        rf = RandomForestClassifier(random_state=123, max_depth=20) #increases the sample leaf whild decreasing max depth
+        rf = RandomForestClassifier(random_state=123, max_depth=10) #increases the sample leaf whild decreasing max depth
         #fit it
         rf.fit(x_train, y_train)
         #transform it
@@ -252,7 +254,7 @@ def auto_random_trees_test(x_test, y_test, x_train, y_train):
         y_pred = rf.predict(x_test)
         conf = confusion_matrix(y_test, y_pred)
     
-        print(f"\n------------------------ Test Model with depth of {20} Scores------------------------------")
+        print(f"\n------------------------ Test Model with depth of {10} Scores------------------------------")
         #plot_confusion_matrix(rf, x_test, y_test)
         #plt.show()
         print(pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)))
