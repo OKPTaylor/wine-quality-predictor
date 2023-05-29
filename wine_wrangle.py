@@ -487,7 +487,32 @@ def wine_split_cluster(train, validate, test, target='quality'):
 
     return X_train2, y_train2, X_validate2, y_validate2, X_test2, y_test2
 
+# This function takes in the wine data acquired from the get_csv function and splits it into different train, validate, and test for the first cluster only
+def wine_split_cluster1(train, validate, test, target='quality'):
+    # Assign but with clusters
+    # combine volatile acidity and fixed acidity into one column
+    train['acid'] = train['volatile_acidity'] + train['fixed_acidity']
+   
 
+    validate['acid'] = validate['volatile_acidity'] + validate['fixed_acidity']
+   
+
+    test['acid'] = test['volatile_acidity'] + test['fixed_acidity']
+    
+
+    #drop the original columns
+    train = train.drop(columns=['volatile_acidity', 'fixed_acidity'])
+    validate = validate.drop(columns=['volatile_acidity', 'fixed_acidity'])
+    test = test.drop(columns=['volatile_acidity', 'fixed_acidity'])
+    #assign X and y versions of train, validate, and test from all columns
+    X_train2 = train.drop(columns=[target, 'type_white'])
+    y_train2 = train[['quality']]
+    X_validate2 = validate.drop(columns=[target, 'type_white'])
+    y_validate2 = validate[['quality']]
+    X_test2 = test.drop(columns=[target, "type_white"])
+    y_test2 = test[['quality']]
+
+    return X_train2, y_train2, X_validate2, y_validate2, X_test2, y_test2
 
 
 
