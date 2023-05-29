@@ -82,6 +82,3 @@ def summarize_alcohol_sugar_quality(df, col1, col2, col3):
     plt.title("Correlation of Alcohol and Residual Sugars")
     plt.show()
     
-#     sns.barplot(data=train, y='alcohol', x='quality', ci=False, palette='flare')
-# plt.title("Correlation of Alcohol Percentage and Quality Rating")
-# plt.show()
