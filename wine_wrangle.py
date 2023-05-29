@@ -491,19 +491,19 @@ def wine_split_cluster(train, validate, test, target='quality'):
 def wine_split_cluster1(train, validate, test, target='quality'):
     # Assign but with clusters
     # combine volatile acidity and fixed acidity into one column
-    train['acid'] = train['volatile_acidity'] + train['fixed_acidity']
+    train['acid'] = train['volatile_acidity'] + train['fixed_acidity'] +train['citric_acid']
    
 
-    validate['acid'] = validate['volatile_acidity'] + validate['fixed_acidity']
+    validate['acid'] = validate['volatile_acidity'] + validate['fixed_acidity'] + validate['citric_acid']
    
 
-    test['acid'] = test['volatile_acidity'] + test['fixed_acidity']
+    test['acid'] = test['volatile_acidity'] + test['fixed_acidity'] + test['citric_acid']
     
 
     #drop the original columns
-    train = train.drop(columns=['volatile_acidity', 'fixed_acidity'])
-    validate = validate.drop(columns=['volatile_acidity', 'fixed_acidity'])
-    test = test.drop(columns=['volatile_acidity', 'fixed_acidity'])
+    train = train.drop(columns=['volatile_acidity', 'fixed_acidity', 'citric_acid'])
+    validate = validate.drop(columns=['volatile_acidity', 'fixed_acidity', 'citric_acid'])
+    test = test.drop(columns=['volatile_acidity', 'fixed_acidity', 'citric_acid'])
     #assign X and y versions of train, validate, and test from all columns
     X_train2 = train.drop(columns=[target, 'type_white'])
     y_train2 = train[['quality']]
