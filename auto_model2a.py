@@ -241,20 +241,20 @@ def auto_random_trees_test(x_test, y_test, x_train, y_train):
     
         
         #make it
-        rf = RandomForestClassifier(random_state=123, max_depth=10) #increases the sample leaf whild decreasing max depth
+        rf = RandomForestClassifier(random_state=123, max_depth=8) #increases the sample leaf whild decreasing max depth
         #fit it
         rf.fit(x_train, y_train)
         #transform it
-        train_acc = rf.score(x_train, y_train)
-        y_pred = rf.predict(x_train)
-        conf = confusion_matrix(y_train, y_pred)
+        #train_acc = rf.score(x_train, y_train)
+        y_pred_train = rf.predict(x_train)
+        #conf = confusion_matrix(y_train, y_pred)
         #transform it
         test_acc = rf.score(x_test, y_test)
         
         y_pred = rf.predict(x_test)
-        conf = confusion_matrix(y_test, y_pred)
+        #conf = confusion_matrix(y_test, y_pred)
     
-        print(f"\n------------------------ Test Model with depth of {10} Scores------------------------------")
+        print(f"\n------------------------ Test Model with depth of {8} Scores------------------------------")
         #plot_confusion_matrix(rf, x_test, y_test)
         #plt.show()
         print(pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)))
@@ -262,6 +262,20 @@ def auto_random_trees_test(x_test, y_test, x_train, y_train):
         #print(print_cm_metrics(conf)) 
 
         print(f"Accuracy is {test_acc}")
+
+        plt.figure(figsize=(16,8))
+
+        plt.hist(y_train, color='blue', alpha=.5, label="Actual Wine Quality")
+        plt.hist(y_pred_train, color='red', alpha=.5, label="Model: Random Forest")
+       #plt.hist(y_validate.G3_pred_lars, color='purple', alpha=.5, label="Model: Lasso Lars")
+        #plt.hist(y_validate.G3_pred_glm, color='yellow', alpha=.5, label="Model: TweedieRegressor")
+        #plt.hist(y_validate.G3_pred_lm2, color='green', alpha=.5, label="Model 2nd degree Polynomial")
+
+        plt.xlabel("Wine Quality")
+        plt.ylabel("Number of Wines")
+        plt.title("Comparing the Distribution of Wine Quality to Distributions of Predicted Wine Quality for the Top Model")
+        plt.legend()
+        plt.show()
         
  # Prediction .csv creation
 
