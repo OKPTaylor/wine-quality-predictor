@@ -76,7 +76,7 @@ My initial hypothesis is that wine quality is affected by acidity and alcohol co
  
 # Takeaways and Conclusions<br>
 
-Clustering did not produce and *meaningful* clusters, but did highlight relationships:
+Clustering did not produce any *meaningful* clusters, but did highlight relationships:
 
 * **Acidity negatively affects the quality of wine**
     * Higher the acid, lower the quality
@@ -97,8 +97,8 @@ Clustering did not produce and *meaningful* clusters, but did highlight relation
 
 * Classification modeling (random forest) is comparativly better than any regression model for predicting specific catagories sprend across a greater range of predicted and actual datapoints.
 
-# Recommendations
-* For future researchers: This data set consisted of only variants of the Portuguese vinho verde and their associated grape types, in order to more fully explore and predict wine quality data on more grape types must be collected.
-* For the data engineers: Either split the dataset into white and red and create separate models or gather more data on red types of vinho verde.
-* For the data scientsists: Remove outlier and engineer "acid" feature and "feel" feature using appropriate columns.
+# Recommendation
+* For future researchers: This data set consisted of only variants of the Portuguese vinho verde and their associated grape types. More data must be collected on other grape varieties.
+* For the data engineers: Either split the dataset into white and red and create separate models or gather more data on red types of vinho verde to balance the dataset.
+* For the data scientists: Remove outliers and engineer "acid" feature and "feel" feature using appropriate columns.
 * For the business: Do not recommend putting this model into production.
