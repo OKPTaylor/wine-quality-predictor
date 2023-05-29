@@ -28,6 +28,7 @@ My initial hypothesis is that wine quality is affected by acidity and alcohol co
 		* numerical/categorical columns
 		* names of columns
             * related columns
+        * no outliers removed for this iteration
  
 * Explore data:
    * Answer the following initial questions:
@@ -91,11 +92,11 @@ Clustering did not produce any *meaningful* clusters, but did highlight relation
         
 * **Modeling**
 
-* The random forest performed well at predicting wines in the quality ranges of 4-7 even hitting over 80% true positive rates at 4 and 7. The model preformed worse at the end ranges mostly due to the fact that in those ranges there are limited number of wines.
+* The random forest performed well at predicting wines in the quality ranges of 4-7 even hitting over 60% true positive rates at 5 and 7. The model preformed worse at the end ranges mostly due to the fact that in those ranges there are limited number of wines. With clustering, random forests models increased in train accuracy but decreased in validate and test accuracy.
 
-* While the Polynomial Model beat baseline with a RMSE of .72 this means that predictions will still be off by nearly an entire quality level. This is refelcted in the graph by showing how that most of the predictions are clumped in the middle.
+* While the Polynomial Model beat baseline with a RMSE of .72 this means that predictions will still be off by nearly an entire quality level. With clustering, there was no significant increase or decrease in performance.
 
-* Classification modeling (random forest) is comparativly better than any regression model for predicting specific catagories sprend across a greater range of predicted and actual datapoints.
+* Classification modeling (random forest) without clustering is comparativly better than any regression model for predicting specific catagories sprend across a greater range of predicted and actual datapoints.
 
 # Recommendation
 * For future researchers: This data set consisted of only variants of the Portuguese vinho verde and their associated grape types. More data must be collected on other grape varieties.
