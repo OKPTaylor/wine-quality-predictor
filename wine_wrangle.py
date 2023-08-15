@@ -1,20 +1,13 @@
-import scipy.stats as stats
-import pandas as pd
-import os
-import numpy as np
-
 # Data viz:
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Sklearn stuff:
+# Sklearn:
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import plot_tree
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MinMaxScaler, RobustScaler, StandardScaler
 
@@ -34,20 +27,17 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Splits
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+print(f"Load in successful... awaiting commands")
+
 
 '''------------------------------------------------------------------------- ACQUIRE ---------------------------------------------------------------------------'''
-print(f"Load in successful... awaiting commands")
 
 def get_csv(csv_name):
     df = pd.read_csv(csv_name)
     print(f"CSV found")
     return df
-'''------------------------------------------------------------------------- PREP ---------------------------------------------------------------------------'''
 
-#  PREPARES
+'''------------------------------------------------------------------------- PREPARE ---------------------------------------------------------------------------'''
 
 def wrangle_wine_initial():
     """This function takes in two local CSV files, combines them, performs data cleanup
@@ -209,7 +199,7 @@ def split_function_cont_target(df_name):
 #call should look like: 
 #train_df_name, validate_df_name, test_df_name = wrg.split_function_cont_target(df_name)
 
-'''--------------------------------------------------------------------Explore with Plots----------------------------------------------------------------------------------'''
+'''--------------------------------------------------------------Explore with Plots----------------------------------------------------------------------------------'''
 
 #This makes two lists containing all the categorical and continuous variables
 def cat_and_num_lists(df_train_name, cat_count):
@@ -513,8 +503,3 @@ def wine_split_cluster1(train, validate, test, target='quality'):
     y_test2 = test[['quality']]
 
     return X_train2, y_train2, X_validate2, y_validate2, X_test2, y_test2
-
-
-
-
-

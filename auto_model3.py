@@ -10,28 +10,20 @@ import seaborn as sns
 # Sklearn stuff:
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix, mean_squared_error, r2_score
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import plot_tree
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression, LinearRegression, LassoLars, TweedieRegressor
+from sklearn.preprocessing import MinMaxScaler, PolynomialFeatures
 from sklearn.feature_selection import RFE, SelectKBest, f_regression
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import r2_score
-from sklearn.feature_selection import RFE
-from sklearn.linear_model import LassoLars
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import TweedieRegressor
-from sklearn.metrics import  mean_squared_error
+
+# numbers
 from math import sqrt
 
 
 
 #This function automates the process for modeling and evaluating regression models
-def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_validate, x_test_scaled):
+def auto_regress(y_train, train_df, x_train_scaled, x_validate_scaled, y_validate):
 
     def regression_errors(y, yhat):
         '''
@@ -53,7 +45,7 @@ def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_valida
         
         
     
-    def model_all(y_train, train_df, x_train_scaled, x_validate_scaled,y_validate,x_test_scaled):
+    def model_all(y_train, train_df, x_train_scaled, x_validate_scaled, y_validate):
         baseline = y_train.mean()
         
         #calculate baseline
@@ -63,7 +55,7 @@ def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_valida
         metric_df = pd.DataFrame(data=[{
         'model': 'mean_baseline',   
         'RMSE': RMSE,
-        'r^2': r2}])
+        'r^2': r2}]).round(2)
         
         #OLS_1 and RFE
         #intial model
@@ -94,7 +86,7 @@ def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_valida
         rmse, r2 = regression_errors(y_validate, pred_val_Lr1)
 
         #add to metric_df
-        metric_df.loc[1] = ['ols_1', rmse, r2]
+        metric_df.loc[1] = ['ols_1', round((rmse),2), round((r2),2)]
        
         #multiple Regression with OLS
         #make the model
@@ -113,7 +105,7 @@ def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_valida
         rmse, r2 = regression_errors(y_validate, pred_val_Lr2)
 
         #add to metric_df
-        metric_df.loc[2] = ['ols_2', rmse, r2]
+        metric_df.loc[2] = ['ols_2', round((rmse),2), round((r2),2)]
 
         #LassoLars
         #make the model
@@ -130,16 +122,15 @@ def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_valida
         rmse, r2= regression_errors(y_validate, pred_val_lars)
 
         #add to metric_df
-        metric_df.loc[3] = ['lars', rmse, r2]
+        metric_df.loc[3] = ['lars', round((rmse),2), round((r2),2)]
 
         #polynomial regression
         #make polynomial features to get a new set of features
         pf = PolynomialFeatures(degree=3)
         #fit and transform x_train_scaled
         x_train_scaled_pf = pf.fit_transform(x_train_scaled)
-        #transform x_validate_scaled and x_test_scaled
+        #transform x_validate_scaled
         x_validate_scaled_pf = pf.transform(x_validate_scaled)
-        x_test_scaled_pf = pf.transform(x_test_scaled)
 
         #fit to linear regression model
         #make the model
@@ -155,7 +146,7 @@ def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_valida
         regression_errors(y_train, pred_pr)
         rmse, r2 = regression_errors(y_validate, pred_val_pr)
 
-        metric_df.loc[4] = ['poly', rmse, r2]
+        metric_df.loc[4] = ['poly', round((rmse),2), round((r2),2)]
 
         #tweedie regression
         #make the model
@@ -171,39 +162,37 @@ def auto_regress( y_train, train_df, x_train_scaled, x_validate_scaled, y_valida
         regression_errors(y_train, pred_glm)
         rmse, r2 = regression_errors(y_validate, pred_val_glm)
 
-        metric_df.loc[5] = ['glm', rmse, r2]
+        metric_df.loc[5] = ['glm', round((rmse),2), round((r2),2)]
 
         print(metric_df)
         print("\n")
-        print("The best model is the", metric_df.loc[metric_df['RMSE'].idxmin()][0], "model\n")
+        print("The best validate model is the", metric_df.loc[metric_df['RMSE'].idxmin()][0], "model\n")
         
-        '''#plot actuals vs predicted
-        plt.figure(figsize=(16,8))
-        plt.plot(y_validate, y_validate, color='gray', label='Perfect Model')
+#         #plot actuals vs predicted
+#         plt.figure(figsize=(16,8))
+#         plt.plot(y_validate, y_validate, color='gray', label='Perfect Model')
         
         
-        plt.scatter(y_validate, pred_val_lars, color='blue', alpha=.5, label='Model 1: LassoLars')
-        plt.scatter(y_validate, pred_val_pr, color='green', alpha=.5, label='Model 2: PolynomialRegression')
-        plt.scatter(y_validate, pred_val_glm, color='red', alpha=.5, label='Model 3: TweedieRegressor')
-        #plot the baseline line
-        plt.legend()
-        plt.xlabel("Actual")
-        plt.ylabel("Predicted")
-        plt.title("Actual vs. Predicted")
-        plt.show()'''
+#         plt.scatter(y_validate, pred_val_lars, color='blue', alpha=.5, label='Model 1: LassoLars')
+#         plt.scatter(y_validate, pred_val_pr, color='green', alpha=.5, label='Model 2: PolynomialRegression')
+#         plt.scatter(y_validate, pred_val_glm, color='red', alpha=.5, label='Model 3: TweedieRegressor')
+#         #plot the baseline line
+#         plt.legend()
+#         plt.xlabel("Actual")
+#         plt.ylabel("Predicted")
+#         plt.title("Actual vs. Predicted")
+#         plt.show()
 
-    ''' 
-       #plot residuals
-        plt.figure(figsize=(16,8))
-        plt.axhline(label="No Error")
-        plt.scatter(y_validate, pred_val_lars - y_validate, alpha=.5, color="blue", s=100, label="Model 1: LassoLars")
-        plt.scatter(y_validate, pred_val_pr - y_validate, alpha=.5, color="green", s=100, label="Model 2: PolynomialRegression")
-        plt.scatter(y_validate, pred_val_glm - y_validate, alpha=.5, color="red", s=100, label="Model 3: TweedieRegressor")
-        plt.legend()
-        plt.xlabel("Actual")
-        plt.ylabel("Residual/Error: Predicted - Actual")
-        plt.title("Do the size of errors change as the actual value changes?")
-        plt.show()'''
-
-        
-    model_all(y_train, train_df, x_train_scaled, x_validate_scaled, y_validate, x_test_scaled)
+#         #plot residuals
+#         plt.figure(figsize=(16,8))
+#         plt.axhline(label="No Error")
+#         plt.scatter(y_validate, pred_val_lars - y_validate, alpha=.5, color="blue", s=100, label="Model 1: LassoLars")
+#         plt.scatter(y_validate, pred_val_pr - y_validate, alpha=.5, color="green", s=100, label="Model 2: PolynomialRegression")
+#         plt.scatter(y_validate, pred_val_glm - y_validate, alpha=.5, color="red", s=100, label="Model 3: TweedieRegressor")
+#         plt.legend()
+#         plt.xlabel("Actual")
+#         plt.ylabel("Residual/Error: Predicted - Actual")
+#         plt.title("Do the size of errors change as the actual value changes?")
+#         plt.show()
+     
+    model_all(y_train, train_df, x_train_scaled, x_validate_scaled, y_validate)
