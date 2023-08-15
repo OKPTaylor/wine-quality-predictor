@@ -88,18 +88,25 @@ Clustering did not produce any *meaningful* clusters, but did highlight relation
         * Quality of 3 has 30 wines
         * Quality of 9 has 5 wines
 * **White wine results in a much wider range of residual sugars**
-    * Clustering on Alcohol, Residual Sugars, and Density *attempted* to cluster to identify type of wine - got very close to being accurate
+    * Clustering on Alcohol, Residual Sugars, and Density *attempted* to cluster to identify type of wine - we got very close to being accurate
         
 * **Modeling**
 
 * The random forest performed well at predicting wines in the quality ranges of 4-7 even hitting over 60% true positive rates at 5 and 7. The model preformed worse at the end ranges mostly due to the fact that in those ranges there are limited number of wines. With clustering, random forests models increased in train accuracy but decreased in validate and test accuracy.
 
-* While the Polynomial Model beat baseline with a RMSE of .72 this means that predictions will still be off by nearly an entire quality level. With clustering, there was no significant increase or decrease in performance.
+* While the Polynomial Model beat baseline with a RMSE of .72 this means that predictions will still be off by nearly an entire quality level. With clustering, there was no significant increase or decrease in performance. Two of the clusters were sent to modeling with the test set. My assumption is that they turned out to be noise and provided no real significance. I included the clusters to meet the deliverables of this project but I do note that they have no real contribution to the model.
 
-* Classification modeling (random forest) without clustering is comparativly better than any regression model for predicting specific catagories sprend across a greater range of predicted and actual datapoints.
+# Performance
+* Baseline RMSE: .87
+* Used Polynomial Regression with 3 Degrees (Cubic)
+    * Test RMSE: .72
+        * Beat baseline because less RMSE, the better!
+    * Test R2: .31
+        * Indicates relative fit of the data to the model being conservatively: linear.
+
 
 # Recommendation
 * For future researchers: This data set consisted of only variants of the Portuguese vinho verde and their associated grape types. More data must be collected on other grape varieties.
 * For the data engineers: Either split the dataset into white and red and create separate models or gather more data on red types of vinho verde to balance the dataset.
-* For the data scientists: Remove outliers and engineer "acid" feature and "feel" feature using appropriate columns.
-* For the business: Do not recommend putting this model into production.
+* For the data scientists: Explore different polynomial fits such as MARS (Multiple Adaptive Regression Spline) in place of Gaussian or AIC (Akaike Information Criterion).
+* For the business: We do not recommend putting this model into production at the moment.
