@@ -12,7 +12,7 @@ Clustering project built to predict the quality of wine.
  
 # Initial Thoughts
  
-My initial hypothesis is that wine quality is affected by acidity and alcohol content.
+My initial hypothesis is that wine quality is affected by acidity and alcohol content. We decided to use classification and regression methodologies. However, upon second iteration - we removed the classification methodologies as it provided no real significance.
  
 # The Plan
  
@@ -101,12 +101,13 @@ Clustering did not produce any *meaningful* clusters, but did highlight relation
 * Used Polynomial Regression with 3 Degrees (Cubic)
     * Test RMSE: .72
         * Beat baseline because less RMSE, the better!
+        * Still not good enough, as our prediction is one entire quality point off and we only have the range of 3-9.
     * Test R2: .31
-        * Indicates relative fit of the data to the model being conservatively: linear.
+        * Indicates relative fit of the data to the model being conservatively linear.
 
 
 # Recommendation
 * For future researchers: This data set consisted of only variants of the Portuguese vinho verde and their associated grape types. More data must be collected on other grape varieties.
 * For the data engineers: Either split the dataset into white and red and create separate models or gather more data on red types of vinho verde to balance the dataset.
 * For the data scientists: Explore different polynomial fits such as MARS (Multiple Adaptive Regression Spline) in place of Gaussian or AIC (Akaike Information Criterion).
-* For the business: We do not recommend putting this model into production at the moment.
+* For the business: The models succeed as a proof of concept but we do not recommend putting these models into production at this time. With further research and feature engineering more accurate models could be made. 
